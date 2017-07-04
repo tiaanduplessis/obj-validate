@@ -72,7 +72,7 @@ const foo = {
   baz: 'foo'
 }
 
-objValidate(foo, {
+const result = objValidate(foo, {
   bar: {
     required: true,
     type: 'Number',
@@ -84,7 +84,9 @@ objValidate(foo, {
   baz: {
     type: 'Number'
   }
-}).then(console.log)
+})
+
+console.log(result)
 /*{ bar: [],
   foo:
    [ ReferenceError: Missing required property foo

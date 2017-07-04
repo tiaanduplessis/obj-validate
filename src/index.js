@@ -7,7 +7,7 @@ export default function validate (obj = {}, schema = {}) {
   const errors = {}
 
   if (!is(obj, schema, 'Object')) {
-    return Promise.reject(new Error('Invalid object or schema provided'))
+    throw new Error('Invalid object or schema provided')
   }
 
   Object.keys(schema).forEach(key => {
@@ -37,5 +37,5 @@ export default function validate (obj = {}, schema = {}) {
     }
   })
 
-  return Promise.resolve(errors)
+  return errors
 }

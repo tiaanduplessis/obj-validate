@@ -16,7 +16,7 @@ function validate (obj, schema) {
   var errors = {};
 
   if (!is(obj, schema, 'Object')) {
-    return Promise.reject(new Error('Invalid object or schema provided'))
+    throw new Error('Invalid object or schema provided')
   }
 
   Object.keys(schema).forEach(function (key) {

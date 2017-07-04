@@ -5,7 +5,7 @@ test('should export function', () => {
   expect(typeof objValidate).toBe('function')
 })
 
-test('should validate object', done => {
+test('should validate object', () => {
   const obj = {
     bar: 5
   }
@@ -17,10 +17,9 @@ test('should validate object', done => {
     }
   }
 
-  objValidate(obj, schema).then(result => {
-    expect(typeof result).toBe('object')
-    expect(Array.isArray(result.bar)).toBeTruthy()
-    expect(result.bar.length).toBe(0)
-    done()
-  })
+  const result = objValidate(obj, schema)
+
+  expect(typeof result).toBe('object')
+  expect(Array.isArray(result.bar)).toBeTruthy()
+  expect(result.bar.length).toBe(0)
 })
