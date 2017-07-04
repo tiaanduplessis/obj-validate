@@ -1,10 +1,27 @@
 const is = require('samesame')
 
-const has = function (object, key) {
+/**
+ * Check if a object contains a given key
+ *
+ * @param {object} object Object to check for key
+ * @param {string} key Key to check for
+ *
+ * @returns {boolean}
+ */
+const has = function (object = {}, key) {
   return object && hasOwnProperty.call(object, key)
 }
-export default function validate (obj = {}, schema = {}) {
-  const errors = {}
+
+/**
+ * Compare a object to a given schema
+ *
+ * @param {object} obj Object to compare to schema
+ * @param {object} schema Schema to campare object to
+ *
+ * @returns {array} Array of all errors
+ */
+const validate = function (obj = {}, schema = {}, options = {}) {
+  const errors = []
 
   if (!is(obj, schema, 'Object')) {
     throw new Error('Invalid object or schema provided')
@@ -12,25 +29,24 @@ export default function validate (obj = {}, schema = {}) {
 
   Object.keys(schema).forEach(key => {
     const prop = schema[key]
-    errors[key] = []
 
     if (prop.required && !has(obj, key)) {
-      errors[key].push(ReferenceError(`Missing required property ${key}`))
+      errors.push(ReferenceError(`Missing required property ${key}`))
     }
 
     if (prop.type && has(obj, key)) {
       if (Array.isArray(prop.type)) {
         if (!is(obj[key], ...prop.type)) {
-          errors[key].push(TypeError(`Invalid type. Property ${key} should be ${prop.type}`))
+          errors.push(TypeError(`Invalid type. Property ${key} should be ${prop.type}`))
         }
       } else if (!is(obj[key], prop.type)) {
-        errors[key].push(TypeError(`Invalid type. Property ${key} should be ${prop.type}`))
+        errors.push(TypeError(`Invalid type. Property ${key} should be ${prop.type}`))
       }
     }
 
     if (prop.pattern && prop.pattern instanceof RegExp && has(obj, key)) {
       if (!obj[key].toString().match(prop.pattern)) {
-        errors[key].push(
+        errors.push(
           TypeError(`Invalid value. Property ${key} does not match pattern ${prop.pattern}`)
         )
       }
@@ -39,3 +55,5 @@ export default function validate (obj = {}, schema = {}) {
 
   return errors
 }
+
+export default validate
