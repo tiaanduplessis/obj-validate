@@ -20,6 +20,6 @@ test('should validate object', () => {
   const result = objValidate(obj, schema)
 
   expect(typeof result).toBe('object')
-  expect(Array.isArray(result.bar)).toBeTruthy()
-  expect(result.bar.length).toBe(0)
+  expect(Array.isArray(result)).toBeTruthy()
+  expect(result.length).toBe(0)
 })
