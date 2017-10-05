@@ -54,6 +54,8 @@
 
 ## Install
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/tiaanduplessis/obj-validate.svg)](https://greenkeeper.io/)
+
 ```sh
 $ npm install obj-validate
 # OR
