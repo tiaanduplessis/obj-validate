@@ -1,4 +1,4 @@
-import objValidate from '../src'
+import objValidate from '../'
 
 test('should export function', () => {
   expect(objValidate).toBeDefined()

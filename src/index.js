@@ -8,7 +8,7 @@ const is = require('samesame')
  *
  * @returns {boolean}
  */
-const has = function (object = {}, key) {
+function has (object = {}, key) {
   return object && hasOwnProperty.call(object, key)
 }
 
@@ -20,7 +20,7 @@ const has = function (object = {}, key) {
  *
  * @returns {array} Array of all errors
  */
-const validate = function (obj = {}, schema = {}, options = {}) {
+const validate = function (obj = {}, schema = {}) {
   const errors = []
 
   if (!is(obj, schema, 'Object')) {
