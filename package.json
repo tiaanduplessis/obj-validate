@@ -1,6 +1,6 @@
 {
   "name": "obj-validate",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Validate an object schema",
   "license": "MIT",
   "repository": {
