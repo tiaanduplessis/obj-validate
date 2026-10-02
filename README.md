@@ -25,7 +25,7 @@ $ yarn add obj-validate
 
 ## Usage
 
-The module exports a single function that accepts an `object` and a `schema` as arguments. The `object` is validated against the `schema`, returning errors. 
+The module exports a single function that accepts an `object`, a `schema`, and an optional `options` object. The `object` is validated against the `schema`, returning an array of errors (or an empty array when validation succeeds).
 
 ```js
 import objValidate from 'obj-validate'
@@ -50,37 +50,32 @@ const result = objValidate(foo, {
 })
 
 console.log(result)
-/*{ bar: [],
-  foo:
-   [ ReferenceError: Missing required property foo
-         at Object.keys.forEach.key (/Users/Tiaan/Workspace/obj-validate/src/index.js:21:24)
-         at Array.forEach (native)
-         at validate (/Users/Tiaan/Workspace/obj-validate/src/index.js:16:23)
-         at Object.<anonymous> (/Users/Tiaan/Workspace/obj-validate/src/index.js:51:1)
-         at Module._compile (module.js:571:32)
-         at Object.Module._extensions..js (module.js:580:10)
-         at Module.load (module.js:488:32)
-         at tryModuleLoad (module.js:447:12)
-         at Function.Module._load (module.js:439:3)
-         at Module.runMain (module.js:605:10) ],
-  baz:
-   [ TypeError: Invalid type. Property baz should be Number
-         at Object.keys.forEach.key (/Users/Tiaan/Workspace/obj-validate/src/index.js:30:26)
-         at Array.forEach (native)
-         at validate (/Users/Tiaan/Workspace/obj-validate/src/index.js:16:23)
-         at Object.<anonymous> (/Users/Tiaan/Workspace/obj-validate/src/index.js:51:1)
-         at Module._compile (module.js:571:32)
-         at Object.Module._extensions..js (module.js:580:10)
-         at Module.load (module.js:488:32)
-         at tryModuleLoad (module.js:447:12)
-         at Function.Module._load (module.js:439:3)
-         at Module.runMain (module.js:605:10) ] }*/
+// [
+//   ReferenceError: Missing required property foo,
+//   TypeError: Invalid type. Property baz should be Number
+// ]
 ```
 
 Possible validations:
 - `required` - A property is required
 - `type` - The required type of a property as a `String` or `Array` of possible types e.g. `Object` or `['Function', 'String']`
 - `pattern` - Regex pattern to match property value on e.g. `/foo/`
+
+### First error only
+
+By default, validation collects all errors. Pass `{ firstError: true }` as the third argument to stop as soon as the first error is found:
+
+```js
+const errors = objValidate({}, {
+  first: { required: true },
+  second: { required: true }
+}, { firstError: true })
+
+console.log(errors)
+// [ReferenceError: Missing required property first]
+```
+
+The result is still an array containing the original error. Later checks on the same property and later schema properties are not evaluated. Errors follow `Object.keys(schema)` order, with `required`, `type`, then `pattern` checked for each property. Omitting the option, passing an empty options object, or setting `firstError` to `false` preserves the default behavior. Only the boolean value `true` enables early exit.
 
 ## Contribute
 
